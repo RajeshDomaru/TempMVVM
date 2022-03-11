@@ -135,11 +135,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun observers() {
 
-        blogViewModel.blogs.observe(this, {
+        blogViewModel.blogs.observe(this) {
 
             blogAdapter.submitList(it.toMutableList())
 
-        })
+        }
 
     }
 
