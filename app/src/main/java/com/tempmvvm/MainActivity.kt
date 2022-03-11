@@ -45,21 +45,30 @@ class MainActivity : AppCompatActivity() {
 
             btnAddOrUpdate.setOnClickListener {
 
-                if (btnAddOrUpdate.text.toString() == getString(R.string.add)) {
+                if (etTitle.text.toString().trim().isNotEmpty()) {
 
-                    val blog = Blog(UUID.randomUUID().toString(), etTitle.text.toString().trim())
+                    if (btnAddOrUpdate.text.toString() == getString(R.string.add)) {
 
-                    blogViewModel.addBlog(blog)
+                        val blog =
+                            Blog(UUID.randomUUID().toString(), etTitle.text.toString().trim())
+
+                        blogViewModel.addBlog(blog)
+
+                    } else {
+
+                        val blog = Blog(tvBlogId.text.toString(), etTitle.text.toString().trim())
+
+                        blogViewModel.updateBlog(blog)
+
+                    }
+
+                    resetFlow()
 
                 } else {
 
-                    val blog = Blog(tvBlogId.text.toString(), etTitle.text.toString().trim())
-
-                    blogViewModel.updateBlog(blog)
+                    etTitle.error = "Required!"
 
                 }
-
-                resetFlow()
 
             }
 
