@@ -1,13 +1,17 @@
 package com.tempmvvm
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tempmvvm.databinding.ActivityMainBinding
 import java.util.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,6 +40,18 @@ class MainActivity : AppCompatActivity() {
         loadAdapter()
 
         observers()
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
 
     }
 
@@ -78,6 +94,25 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.search_menu, menu)
+        val search = menu.findItem(R.id.menuSearch)
+        val searchView = search.actionView as SearchView
+        searchView.queryHint = "Search"
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                blogAdapter.filter.filter(query)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                blogAdapter.filter.filter(newText)
+                return true
+            }
+        })
+        return super.onCreateOptionsMenu(menu)
     }
 
     private fun resetFlow() {
@@ -136,6 +171,8 @@ class MainActivity : AppCompatActivity() {
     private fun observers() {
 
         blogViewModel.blogs.observe(this) {
+
+            blogAdapter.addValues(it)
 
             blogAdapter.submitList(it.toMutableList())
 

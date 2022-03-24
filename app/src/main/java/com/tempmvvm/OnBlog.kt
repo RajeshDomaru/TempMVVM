@@ -2,8 +2,8 @@ package com.tempmvvm
 
 interface OnBlog {
 
-    fun onDeleted(blog : Blog)
+    fun onDeleted(blog: Blog)
 
-    fun onEdit(blog : Blog)
+    fun onEdit(blog: Blog)
 
 }
