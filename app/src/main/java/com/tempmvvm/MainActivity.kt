@@ -176,6 +176,9 @@ class MainActivity : AppCompatActivity() {
 
             blogAdapter.submitList(it.toMutableList())
 
+            if (it.size > 0) bind.tvNotDataFound.visibility = View.GONE
+            else bind.tvNotDataFound.visibility = View.VISIBLE
+
         }
 
     }
